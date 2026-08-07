@@ -1,0 +1,15 @@
+return {
+    {
+        "benlubas/molten-nvim",
+        dependencies = {
+            {'3rd/image.nvim'},
+        },
+        version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+        build = ":UpdateRemotePlugins",
+        init = function()
+            require("image").setup({
+                backend = "kitty",
+            })
+        end,
+    },
+}

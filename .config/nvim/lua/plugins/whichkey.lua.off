@@ -1,0 +1,62 @@
+return {
+    "folke/which-key.nvim",
+    config = function()
+        vim.o.timeout = true
+        vim.o.timeoutlen = 200
+        require("which-key").setup({
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+        })
+        local wk = require("which-key")
+
+        local builtin = require('telescope.builtin')
+
+        wk.register({
+            ["<leader>"] = {
+                ["]"] = { vim.cmd.bn, "Next Buffer"},
+                ["["] = { vim.cmd.bp, "Previous Buffer"},
+                ["w"] = { vim.cmd.bd, "Delete Buffer"},
+                ["n"] = { vim.cmd.enew, "New Buffer"},
+                ["tt"] = { vim.cmd.tabnew, "New Tab"},
+                ["tw"] = { vim.cmd.tabc, "Close Tab"},
+                ["ex"] = { vim.cmd.Ex, "NetRw"},
+                ["rn"] = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename Variable"},
+                k = {
+                    name = "keys",
+                    r = { "<cmd>enew<cr><cmd> %!openssl aes-256-cbc -d -a -pbkdf2 -k 's\\%8c$e00' -in /d/fabio/Dropbox/etc/bb2<cr>", "Read Keys"},
+                    w =  { "<cmd>%!openssl aes-256-cbc -e -a -pbkdf2 -k 's\\%8c$e00'<cr><cmd>saveas! d:\\fabio\\Dropbox\\etc\\bb2<bar>bd<cr>", "Write Keys"}
+                }
+            },
+            ["<leader>f"] = {
+                name = "find", -- optional group name
+                ["."] = { function() builtin.find_files( { cwd = vim.fn.expand('%:p:h')}) end, "Find Here" },
+                f = { function() builtin.find_files( {
+                    search_dirs = {"c:/Users/fabio", "d:/fabio"},
+                    hidden = true,
+                    no_ignore = true,
+                    file_ignore_patterns = {
+                        "/AppData/",
+                        "/solr-9.*Licenses/",
+                        "/Zotero/",
+                        "/.pyenv/",
+                        "/OneDrive/",
+                        "/.rustup/",
+                        "/venv/",
+                        "/.git/",
+                        "/node_modules/",
+                        "/WEB-INF/",
+                        "/2021/",
+                        "/deep-expression/data/levels/"
+                    }
+                }) end, "Find Files" },
+                d = { function() builtin.find_files {cwd="c:/Users/fabio/.config/nvim"} end, "Find Neovim Config File"},
+                g = { function() builtin.live_grep( { cwd = vim.fn.expand('%:p:h') } ) end, "Live Grep"},
+                b = { builtin.buffers, "Find Buffers"},
+                h = { builtin.help_tags, "Find Help Tags"},
+                o = { builtin.oldfiles, "Find Old Files"},
+                r = { builtin.lsp_references, "Find References"},
+                s = { builtin.lsp_document_symbols, "Find Symbols"}
+            },
+        })
+    end
+}
